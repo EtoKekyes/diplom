@@ -46,7 +46,7 @@ def change_channel():
 
 if __name__ == "__main__":
     # interface name, check using iwconfig
-    interface = "wlan0mon"
+    interface = "wlan0"
     # start the thread that prints all the networks
     printer = Thread(target=print_all)
     printer.daemon = True
