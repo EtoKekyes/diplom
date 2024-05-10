@@ -10,7 +10,7 @@ def scan(packet):
         if packet.haslayer(Dot11WEP):
             print('[' + now.strftime("%Y/%m/%d %I:%M:%S") + ']' + ' WEP AP detected, packet sent from WEP AP ' + str(packet.addr1).swapcase() +' to device ' + str(packet.addr2).swapcase())
         if packet.haslayer(Dot11Deauth):
-            print('[' + now.strftime("%Y/%m/%d %I:%M:%S") + ']' + ' Deauthentication attack detected, packet sent from ' + str(packet.addr1).swapcase() +' to device ' + str(packet.addr2).swapcase())
+            print('\n'+'[' + now.strftime("%Y/%m/%d %I:%M:%S") + ']' + ' Deauthentication attack detected, packet sent from ' + str(packet.addr1).swapcase() +' to device ' + str(packet.addr2).swapcase(), end = "/r")
         if packet.haslayer(Dot11FCS):
             print('[' + now.strftime("%Y/%m/%d %I:%M:%S") + ']' + ' PS-Poll attack detected, packet sent from ' + str(packet.addr1).swapcase() +' to device ' + str(packet.addr2).swapcase())
         return
