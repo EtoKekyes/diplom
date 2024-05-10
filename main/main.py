@@ -18,7 +18,7 @@ now = datetime.datetime.now()
 
 def detect_wep_ap(packet):
     if packet.haslayer(Dot11WEP): # type: ignore
-        print('[' + now.strftime("%Y/%m/%d %I:%M:%S") + ']' + ' WEP AP detected, packet sent from MAC: ' + str(packet.addr1).swapcase() +' to MAC ' + str(packet.addr2).swapcase())
+        print('[' + now.strftime("%Y/%m/%d %I:%M:%S") + ']' + ' WEP AP detected, packet sent ' + str(packet.addr1).swapcase() +' >>> ' + str(packet.addr2).swapcase())
         print(packet.summary())
     return
 sniff(iface="wlan0", prn=detect_wep_ap, store=False, count=0)
