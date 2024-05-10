@@ -6,17 +6,17 @@ import subprocess
 now = datetime.datetime.now()
 
 #detect WEP AP
-counter = 0
+#counter = 0
 
-while byte:
-    print(byte)
-    byte = file1.read(1)
-    counter += 1
+#while byte:
+ #   print(byte)
+  #  byte = file1.read(1)
+   # counter += 1
 
-print(counter)
+#print(counter)
 def detect_wep_ap(packet):
     if packet.haslayer(Dot11WEP):
-        print(' [ ' +  now.strftime("%Y/%m/%d %I:%M:%S") + ' ] '+  ' WEP AP detected      MAC: ' +   str(packet.addr1).swapcase())
+        print(' [ ' +  now.strftime("%Y/%m/%d %I:%M:%S") + ' ] '+  ' WEP AP detected      MAC: ' +   str(packet.addr1).swapcase() + 'sent to' + str(packet.addr2).swapcase())
         print(packet.summary())
     return
 sniff(iface="wlan0", prn=detect_wep_ap, store=False, count=0)
