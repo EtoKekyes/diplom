@@ -5,12 +5,12 @@ import sys
 import os
 
 while True:
-    user_input = input("Enter a command (deauth, pspoll, wep, stats, exit): ")
+    user_input = input("Enter a command (deauth, pspoll, wep, stats, exit, help): ")
 
     if user_input == "exit":
         break
     elif user_input == "help":
-        print("Available commands: deauth, pspoll, wep, stats, exit")
+        print("Available commands: deauth, pspoll, wep, stats, exit, help")
     elif user_input == "deauth":
         subprocess.run(['python3', '/home/kali/Desktop/diplom/diplom/main/deauth.py'], check = True)
         #subprocess.Popen(["/home/kali/Desktop/diplom/diplom/main/deauth.py"], shell = True)
