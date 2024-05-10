@@ -9,24 +9,24 @@ packet_counts = Counter()
 
 ##detect WEP Access Points
 
-async def detect_wep_ap(packet):
+def wep(packet):
         if packet.haslayer(Dot11WEP): # type: ignore
             print('[' + now.strftime("%Y/%m/%d %I:%M:%S") + ']' + ' WEP AP detected, packet sent from WEP AP ' + str(packet.addr1).swapcase() +' to device ' + str(packet.addr2).swapcase())
-sniff(iface="wlan0", prn=detect_wep_ap, store=False, count=0)
+sniff(iface="wlan0", prn=wep, store=False, count=0)
 
 ##detect Deauthentication
 
-async def detect_wep_ap(packet):
+def deauth(packet):
         if packet.haslayer(Dot11Deauth): # type: ignore
             print('[' + now.strftime("%Y/%m/%d %I:%M:%S") + ']' + ' Deauthentication attack detected, packet sent from ' + str(packet.addr1).swapcase() +' to device ' + str(packet.addr2).swapcase())
-sniff(iface="wlan0", prn=detect_wep_ap, store=False, count=0)
+sniff(iface="wlan0", prn=deauth, store=False, count=0)
 
 ##detect PS-Poll (Power Save Poll protocol)
 
-async def detect_wep_ap(packet):
+def pspoll(packet):
         if packet.haslayer(Dot11FCS): # type: ignore
             print('[' + now.strftime("%Y/%m/%d %I:%M:%S") + ']' + ' PS-Poll attack detected, packet sent from ' + str(packet.addr1).swapcase() +' to device ' + str(packet.addr2).swapcase())
-sniff(iface="wlan0", prn=detect_wep_ap, store=False, count=0)
+sniff(iface="wlan0", prn=pspoll, store=False, count=0)
 
 
 #counter = 0
