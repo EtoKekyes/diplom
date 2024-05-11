@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+
+from dataclasses import dataclass, fields
+from scapy.all import sniff, Packet, Dot11WEP, Dot11FCS, Dot11Deauth
+
+def wep(pkt: Packet):
+    if pkt.haslayer(Dot11WEP):
+        print(f"WEP AP detected, packet sent from {pkt.addr1} to device {pkt.addr2}")
+
+def pspoll(pkt: Packet):
+    if pkt.haslayer(Dot11FCS):
+        print(f"PS-Poll attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}")
+
+def deauth(pkt: Packet):
+    #print(pkt.summary())
+    if pkt.haslayer(Dot11Deauth):
+        print(f'DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}')
+
+@dataclass
+class Config:
+    iface: str = "wlan0"
+
+def change_config(conf: Config):
+    match input(f"Select option: (iface): "):
+        case "iface":
+            conf.iface = input("value: ")
+        case _name:
+            print(f"Invalid option: {_name}!")
+
+def main():
+    conf = Config()
+    def start(func):
+        print("Starting sniffer")
+        sniff(iface=conf.iface, prn=func, store=False, count=0)
+    while True:
+        print(f"\nUsing {conf}")
+        match input("Select monitor mode: (pspoll, deauth, wep, config, exit): "):
+            case "pspoll": 
+                start(pspoll)
+            case "wep": 
+                start(wep)
+            case "deauth": 
+                start(deauth)
+            case "config": 
+                change_config(conf)
+            case "exit": 
+                break
+            case _name: 
+                print(f"Invalid mode: {_name}!")
+
+if __name__ == "__main__":
+    main()
