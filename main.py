@@ -17,7 +17,7 @@ def deauth(pkt: Packet):
         print(f'DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}')
 
 def disas(pkt: Packet):
-    if pkt.haslayer(Dot11Disas):
+    if pkt.type==0 and pkt.subtype==12:
         print(f'DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}')
 
 
@@ -28,7 +28,7 @@ class Config:
 def change_config(conf: Config):
     match input(f"Select option: (iface): "):
         case "iface":
-            conf.iface = input("value: ")
+            conf.iface = input("what wlan to use: ")
         case _name:
             print(f"Invalid option: {_name}!")
 
