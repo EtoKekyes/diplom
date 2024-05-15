@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass, fields
-from scapy.all import sniff, Packet, Dot11WEP, Dot11FCS, Dot11Deauth
+from scapy.all import sniff, Packet, Dot11WEP, Dot11FCS, Dot11Deauth, Dot11Disas
 
 def wep(pkt: Packet):
     if pkt.haslayer(Dot11WEP):
@@ -15,6 +15,11 @@ def deauth(pkt: Packet):
     #print(pkt.summary())
     if pkt.haslayer(Dot11Deauth):
         print(f'DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}')
+
+def disas(pkt: Packet):
+    if pkt.haslayer(Dot11Disas):
+        print(f'DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}')
+
 
 @dataclass
 class Config:
@@ -34,13 +39,15 @@ def main():
         sniff(iface=conf.iface, prn=func, store=False, count=0)
     while True:
         print(f"\nUsing {conf}")
-        match input("Select monitor mode: (pspoll, deauth, wep, config, exit): "):
+        match input("Select monitor mode: (pspoll, deauth, disas, wep, config, exit): "):
             case "pspoll": 
                 start(pspoll)
             case "wep": 
                 start(wep)
             case "deauth": 
                 start(deauth)
+            case "disas":
+                start(disas)
             case "config": 
                 change_config(conf)
             case "exit": 
