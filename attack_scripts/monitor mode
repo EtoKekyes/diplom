@@ -1,5 +1,0 @@
-ip address #find wifi name
-sudo airmon-ng check kill
-sudo airmon-ng start wlan1
-ip address #verify
-sudo airodump-ng wlan1 #monitor
