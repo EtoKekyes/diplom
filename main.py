@@ -39,7 +39,11 @@ def stats():
     pspoll = contents.count("PS-Poll")
     disas = contents.count("Disassociation")
     deauth = contents.count("Deauthentication")
-    print(pspoll, deauth, disas, wep)
+    print("Current stats:""\n"
+          "PS-Poll attacks detected = ",pspoll,"\n"
+          "DoS Deauthentication attacks detected = ",deauth, "\n"
+          "DoS Disassociation attacks detected = ",disas, "\n"
+          "WEP APs detected = ",wep, "last known attack was ", now " ago")
     f.close()
 
 @dataclass
