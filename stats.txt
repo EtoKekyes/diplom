@@ -1,0 +1,10 @@
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from 50:ff:20:6a:e5:a8 to device c4:3a:be:71:22:7b
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from c4:3a:be:71:22:7b to device 50:ff:20:6a:e5:a8
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from c4:3a:be:71:22:7b to device 50:ff:20:6a:e5:a8
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from 50:ff:20:6a:e5:a8 to device c4:3a:be:71:22:7b
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from 50:ff:20:6a:e5:a8 to device c4:3a:be:71:22:7b
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from c4:3a:be:71:22:7b to device 50:ff:20:6a:e5:a8
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from 50:ff:20:6a:e5:a8 to device c4:3a:be:71:22:7b
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from c4:3a:be:71:22:7b to device 50:ff:20:6a:e5:a8
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from c4:3a:be:71:22:7b to device 50:ff:20:6a:e5:a8
+[ 2024-05-17 03:38:53.534865 ] DoS Deauthentication attack detected, packet sent from c4:3a:be:71:22:7b to device 50:ff:20:6a:e5:a8
