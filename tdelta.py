@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 #f = open("stats.txt")
 #contents = f.read()
@@ -15,12 +15,15 @@ from datetime import datetime
 
 
 # Read dates from the file
-f = open("stats.txt")
-dates = [line.strip() for line in f]
+f = open("stats.txt", 'r')
+d = f.readline()
+dt = datetime.datetime.strptime(d, '%y-%m-%d %H:%M:%S.%f')
+print(dt.strftime('%Y'))
+# dates = [line.strip() for line in f]
 
-# Convert dates to datetime objects
-date_objects = [datetime.strptime(date, '%Y-%m-%d %H:%M:%S') for date in dates]
+# # Convert dates to datetime objects
+# date_objects = [datetime.strptime(date, '%Y-%m-%d %H:%M:%S') for date in dates]
 
-# Find the latest date
-latest_date = max(date_objects)
-print("The latest date is:", latest_date)
+# # Find the latest date
+# latest_date = max(date_objects)
+# print("The latest date is:", latest_date)
