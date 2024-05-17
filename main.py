@@ -40,6 +40,7 @@ def stats():
     disas = contents.count("Disassociation")
     deauth = contents.count("Deauthentication")
     print(pspoll, deauth, disas, wep)
+    f.close()
 
 @dataclass
 class Config:
