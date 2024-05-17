@@ -17,12 +17,16 @@ def pspoll(pkt: Packet):
 
 def deauth(pkt: Packet):
     if pkt.haslayer(Dot11Deauth):
-        print("[",now,"]",f'DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}')
+        f = open("stats.txt", "a")
+        print("[",now,"]",f'DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f)
 
 def disas(pkt: Packet):
     if pkt.type==0 and pkt.subtype==12:
         print("[",now,"]",f'DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}')
 
+def stats():
+    f = open('stats.txt')
+    f.read()
 
 @dataclass
 class Config:
@@ -42,7 +46,7 @@ def main():
         sniff(iface=conf.iface, prn=func, store=False, count=0, monitor = True)
     while True:
         print(f"\nUsing {conf}")
-        match input("Select monitor mode: (pspoll, deauth, disas, wep, config, exit): "):
+        match input("Select monitor mode: (pspoll, deauth, disas, wep, config, stats, exit): "):
             case "pspoll": 
                 start(pspoll)
             case "wep": 
@@ -53,6 +57,8 @@ def main():
                 start(disas)
             case "config": 
                 change_config(conf)
+            case "stats":
+                stats()
             case "exit": 
                 break
             case _name: 

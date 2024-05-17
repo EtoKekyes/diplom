@@ -1,0 +1,10 @@
+DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}
+DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}
+DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}
+DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}
+DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}
+DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}
+DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}
+DoS Deauthentication attack detected
+DoS Deauthentication attack detected
+DoS Deauthentication attack detected
