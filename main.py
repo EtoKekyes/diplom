@@ -46,6 +46,48 @@ def change_config(conf: Config):
         case _name:
             print(f"Invalid option: {_name}!")
 
+def stats():
+    while True:
+        match input(f"Select stats (pspoll, deauth, disas, wep, count, back): "):
+            case "pspoll":
+                with open("pspoll.txt", "r") as f:
+                    for last_line in f:
+                        pass
+                    print("\nLatest PS-Poll attack detected: ", last_line)
+            case "deauth":
+                with open("deauth.txt", "r") as f:
+                    for last_line in f:
+                        pass
+                    print("\nLatest DoS Deauthentication attack detected: ", last_line)
+            case "disas":
+                with open("disas.txt", "r") as f:
+                    for last_line in f:
+                        pass
+                    print("\nLatest DoS Disassociation attack detected: ", last_line)
+            case "wep":
+                with open("wep.txt", "r") as f:
+                    for last_line in f:
+                        pass
+                    print("\nLatest WEP AP detected: ", last_line)
+            case "count":
+                f = open("stats.txt", 'r')
+                contents = f.read()
+                wep = contents.count("WEP AP")
+                pspoll = contents.count("PS-Poll")
+                disas = contents.count("Disassociation")
+                deauth = contents.count("Deauthentication")
+                print("|-------------------------------------------------------------------------------|\n"
+                    "| Current stats:""\n"
+                    "| PS-Poll attacks detected =",pspoll, "\n"
+                    "| DoS Deauthentication attacks detected =",deauth, "\n"
+                    "| DoS Disassociation attacks detected =",disas, "\n"
+                    "| WEP APs detected =",wep)
+                f.close()
+            case "back":
+                break
+            case _name: 
+                print(f"Invalid mode: {_name}!")
+
 def main():
     conf = Config()
     def start(func):
@@ -70,6 +112,6 @@ def main():
                 break
             case _name: 
                 print(f"Invalid mode: {_name}!")
-        
+
 if __name__ == "__main__":
     main()
