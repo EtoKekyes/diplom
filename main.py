@@ -53,22 +53,22 @@ def stats():
                 with open("pspoll.txt", "r") as f:
                     for last_line in f:
                         pass
-                    print("\nLatest PS-Poll attack detected: ", last_line)
+                    print("\nLatest PS-Poll attack detected:", last_line)
             case "deauth":
                 with open("deauth.txt", "r") as f:
                     for last_line in f:
                         pass
-                    print("\nLatest DoS Deauthentication attack detected: ", last_line)
+                    print("\nLatest DoS Deauthentication attack detected:", last_line)
             case "disas":
                 with open("disas.txt", "r") as f:
                     for last_line in f:
                         pass
-                    print("\nLatest DoS Disassociation attack detected: ", last_line)
+                    print("\nLatest DoS Disassociation attack detected:", last_line)
             case "wep":
                 with open("wep.txt", "r") as f:
                     for last_line in f:
                         pass
-                    print("\nLatest WEP AP detected: ", last_line)
+                    print("\nLatest WEP AP detected:", last_line)
             case "count":
                 f = open("stats.txt", 'r')
                 contents = f.read()
