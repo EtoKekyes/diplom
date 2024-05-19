@@ -9,30 +9,34 @@ now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 def wep(pkt: Packet):
     if pkt.haslayer(Dot11WEP):
         f = open("wep.txt", "a")
-        f = open("stats.txt", "a")
-        print(now,f' WEP AP detected with MAC: {pkt.addr1}', file=f, sep="")
+        stats = open("stats.txt", "a")
+        print(now,f' WEP AP detected with MAC: {pkt.addr1}', file = f,sep="")
+        print(now,f' WEP AP detected with MAC: {pkt.addr1}', file = stats,sep="")
         print(now,f' WEP AP detected with MAC: {pkt.addr1}', sep="")
 
 def pspoll(pkt: Packet):
     #if pkt.haslayer(Dot11FCS):
     if pkt.type==1 and pkt.subtype==10:
         f = open("pspoll.txt", "a")
-        f = open("stats.txt", "a")
+        stats = open("stats.txt", "a")
         print(now,f' PS-Poll attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print(now,f' PS-Poll attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         print(now,f' PS-Poll attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
 
 def deauth(pkt: Packet):
     if pkt.haslayer(Dot11Deauth):
         f = open("deauth.txt", "a")
-        f = open("stats.txt", "a")
+        stats = open("stats.txt", "a")
         print(now,f' DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print(now,f' DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         print(now,f' DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
 
 def disas(pkt: Packet):
     if pkt.type==0 and pkt.subtype==12:
         f = open("disas.txt", "a")
-        f = open("stats.txt", "a")
-        print(now,f' DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file=f, sep="")
+        stats = open("stats.txt", "a")
+        print(now,f' DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print(now,f' DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         print(now,f' DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
 
 @dataclass

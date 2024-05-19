@@ -1,1 +1,2 @@
-wep
+2024-05-19 21:38:19 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+2024-05-19 21:38:19 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
