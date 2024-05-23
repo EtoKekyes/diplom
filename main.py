@@ -19,25 +19,30 @@ def pspoll(pkt: Packet):
     if pkt.type==1 and pkt.subtype==10:
         f = open("pspoll.txt", "a")
         stats = open("stats.txt", "a")
-        print(now,f' PS-Poll attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
-        print(now,f' PS-Poll attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
-        print(now,f' PS-Poll attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
+        print(now,f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print(now,f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+        print(now,f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
 
 def deauth(pkt: Packet):
-    if pkt.haslayer(Dot11Deauth):
-        f = open("deauth.txt", "a")
-        stats = open("stats.txt", "a")
-        print(now,f' DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
-        print(now,f' DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
-        print(now,f' DoS Deauthentication attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
+    count = 0
+    while True:
+        if pkt.haslayer(Dot11Deauth):
+            count += 1
+            if count == 10:
+                print("YIPPEEEE")
+            f = open("deauth.txt", "a")
+            stats = open("stats.txt", "a")
+            print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+            print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+            print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
 
 def disas(pkt: Packet):
     if pkt.type==0 and pkt.subtype==12:
         f = open("disas.txt", "a")
         stats = open("stats.txt", "a")
-        print(now,f' DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
-        print(now,f' DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
-        print(now,f' DoS Disassociation attack detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
+        print(now,f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print(now,f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+        print(now,f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
 
 @dataclass
 class Config:
@@ -57,17 +62,17 @@ def stats():
                 with open("pspoll.txt", "r") as f:
                     for last_line in f:
                         pass
-                    print("\nLatest PS-Poll attack detected:", last_line)
+                    print("\nLatest PS-Poll packet detected:", last_line)
             case "deauth":
                 with open("deauth.txt", "r") as f:
                     for last_line in f:
                         pass
-                    print("\nLatest DoS Deauthentication attack detected:", last_line)
+                    print("\nLatest DoS Deauthentication packet detected:", last_line)
             case "disas":
                 with open("disas.txt", "r") as f:
                     for last_line in f:
                         pass
-                    print("\nLatest DoS Disassociation attack detected:", last_line)
+                    print("\nLatest DoS Disassociation packet detected:", last_line)
             case "wep":
                 with open("wep.txt", "r") as f:
                     for last_line in f:
@@ -82,9 +87,9 @@ def stats():
                 deauth = contents.count("Deauthentication")
                 print("|-------------------------------------------------------------------------------|\n"
                     "| Current stats:""\n"
-                    "| PS-Poll attacks detected =",pspoll, "\n"
-                    "| DoS Deauthentication attacks detected =",deauth, "\n"
-                    "| DoS Disassociation attacks detected =",disas, "\n"
+                    "| PS-Poll packets detected =",pspoll, "\n"
+                    "| DoS Deauthentication packets detected =",deauth, "\n"
+                    "| DoS Disassociation packets detected =",disas, "\n"
                     "| WEP APs detected =",wep)
                 f.close()
             case "back":
