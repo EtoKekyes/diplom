@@ -33,7 +33,7 @@ def disas(pkt: Packet):
         print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         global disas_count
         disas_count += 1
-        if disas_count >= 100 and time.time()-start_time <= 60:
+        if disas_count >= 100 and pkt.time - time.time(): 
             print('{}'.format(now()),f'Possible DoS Disassociation attack detected!')                 
             print('{}'.format(now()),f' 100 DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             disas_count = 0
@@ -42,3 +42,4 @@ start_time = time.time()
 disas_count = 0
 
 sniff(iface='wlan0', prn=disas, store=False, count=0, monitor = True)
+

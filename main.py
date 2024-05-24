@@ -3,24 +3,36 @@
 from dataclasses import dataclass, fields
 from scapy.all import sniff, Packet, Dot11, Dot11WEP, Dot11FCS, Dot11Deauth, Dot11Disas, Dot11ProbeReq
 from datetime import datetime
+import time
+import atexit
+
+def exit_handler():
+    wep.close()
+    pspoll.close()
+    deauth.close()
+    disas.close()
+    stats.close()
+atexit.register(exit_handler)
 
 def now():
     return datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 
+wep = open("wep.txt", "a")
+pspoll = open("pspoll.txt", "a")
+deauth = open("deauth.txt", "a")
+disas = open("disas.txt", "a")
+stats = open("stats.txt", "a")
+
 def wep(pkt: Packet):
     if pkt.haslayer(Dot11WEP):
-        f = open("wep.txt", "a")
-        stats = open("stats.txt", "a")
-        print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', file = f,sep="")
+        print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', file = wep,sep="")
         print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', file = stats,sep="")
         print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', sep="")
 
 def pspoll(pkt: Packet):
     #if pkt.haslayer(Dot11ProbeReq) and pkt.info.endswith("-poll"):
     if pkt.type==1 and pkt.subtype==10:
-        f = open("pspoll.txt", "a")
-        stats = open("stats.txt", "a")
-        print('{}'.format(now()),f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print('{}'.format(now()),f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = pspoll, sep="")
         print('{}'.format(now()),f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         global pspoll_count
         pspoll_count += 1
@@ -28,14 +40,11 @@ def pspoll(pkt: Packet):
             print('{}'.format(now()),f'Possible PS-Poll attack detected!')                 
             print('{}'.format(now()),f' 100 PS-Poll packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             pspoll_count = 0
-        f.close()
 pspoll_count = 0   
 
 def deauth(pkt: Packet):
     if pkt.haslayer(Dot11Deauth):
-        f = open("deauth.txt", "a")
-        stats = open("stats.txt", "a")
-        print('{}'.format(now()),f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print('{}'.format(now()),f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = deauth, sep="")
         print('{}'.format(now()),f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         global deauth_count
         deauth_count += 1
@@ -43,14 +52,11 @@ def deauth(pkt: Packet):
             print('{}'.format(now()),f'Possible DoS Deauthentication attack detected!')                 
             print('{}'.format(now()),f' 100 DoS Deauthentication packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             deauth_count = 0
-        f.close()
 deauth_count = 0
 
 def disas(pkt: Packet):
     if pkt.type==0 and pkt.subtype==10:
-        f = open("disas.txt", "a")
-        stats = open("stats.txt", "a")
-        print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = disas, sep="")
         print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         global disas_count
         disas_count += 1
@@ -58,7 +64,6 @@ def disas(pkt: Packet):
             print('{}'.format(now()),f'Possible DoS Disassociation attack detected!')                 
             print('{}'.format(now()),f' 100 DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             disas_count = 0
-        f.close()
 disas_count = 0
 
 @dataclass
@@ -108,7 +113,7 @@ def stats():
                     "| DoS Deauthentication packets detected =",deauth, "\n"
                     "| DoS Disassociation packets detected =",disas, "\n"
                     "| WEP APs detected =",wep)
-                f.close()
+    
             case "back":
                 break
             case _name: 
