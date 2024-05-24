@@ -21,14 +21,14 @@ def pspoll(pkt: Packet):
         stats = open("stats.txt", "a")
         print(now,f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
         print(now,f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
-        global deauth_count
-        deauth_count += 1
-        if deauth_count >= 100:
+        global pspoll_count
+        pspoll_count += 1
+        if pspoll_count >= 100:
             print(now,f'Possible PS-Poll attack detected!')                 
             print(now,f' 100 PS-Poll packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
-            deauth_count = 0
+            pspoll_count = 0
         f.close()
-deauth_count = 0   
+pspoll_count = 0   
 
 def deauth(pkt: Packet):
     if pkt.haslayer(Dot11Deauth):
