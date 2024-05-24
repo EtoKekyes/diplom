@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass, fields
-from scapy.all import sniff, Packet, Dot11, Dot11WEP, Dot11FCS, Dot11Deauth, Dot11Disas
-from datetime import datetime, time
-import time
+from scapy.all import sniff, Packet, Dot11, Dot11WEP, Dot11FCS, Dot11Deauth, Dot11Disas, Dot11ProbeReq
+from datetime import datetime
 
 def now():
     return datetime.now().strftime('%d-%m-%Y %H:%M:%S')
@@ -17,7 +16,7 @@ def wep(pkt: Packet):
         print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', sep="")
 
 def pspoll(pkt: Packet):
-    #if pkt.haslayer(Dot11FCS):
+    #if pkt.haslayer(Dot11ProbeReq) and pkt.info.endswith("-poll"):
     if pkt.type==1 and pkt.subtype==10:
         f = open("pspoll.txt", "a")
         stats = open("stats.txt", "a")
@@ -48,7 +47,7 @@ def deauth(pkt: Packet):
 deauth_count = 0
 
 def disas(pkt: Packet):
-    if pkt.type==0 and pkt.subtype==12:
+    if pkt.type==0 and pkt.subtype==10:
         f = open("disas.txt", "a")
         stats = open("stats.txt", "a")
         print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
