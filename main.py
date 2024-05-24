@@ -3,29 +3,31 @@
 from dataclasses import dataclass, fields
 from scapy.all import sniff, Packet, Dot11, Dot11WEP, Dot11FCS, Dot11Deauth, Dot11Disas
 from datetime import datetime, time
+import time
 
-now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+def now():
+    return datetime.'{}'.format(now())().strftime('%d-%m-%Y %H:%M:%S')
 
 def wep(pkt: Packet):
     if pkt.haslayer(Dot11WEP):
         f = open("wep.txt", "a")
         stats = open("stats.txt", "a")
-        print(now,f' WEP AP detected with MAC: {pkt.addr1}', file = f,sep="")
-        print(now,f' WEP AP detected with MAC: {pkt.addr1}', file = stats,sep="")
-        print(now,f' WEP AP detected with MAC: {pkt.addr1}', sep="")
+        print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', file = f,sep="")
+        print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', file = stats,sep="")
+        print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', sep="")
 
 def pspoll(pkt: Packet):
     #if pkt.haslayer(Dot11FCS):
     if pkt.type==1 and pkt.subtype==10:
         f = open("pspoll.txt", "a")
         stats = open("stats.txt", "a")
-        print(now,f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
-        print(now,f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+        print('{}'.format(now()),f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print('{}'.format(now()),f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         global pspoll_count
         pspoll_count += 1
         if pspoll_count >= 100:
-            print(now,f'Possible PS-Poll attack detected!')                 
-            print(now,f' 100 PS-Poll packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
+            print('{}'.format(now()),f'Possible PS-Poll attack detected!')                 
+            print('{}'.format(now()),f' 100 PS-Poll packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             pspoll_count = 0
         f.close()
 pspoll_count = 0   
@@ -34,29 +36,28 @@ def deauth(pkt: Packet):
     if pkt.haslayer(Dot11Deauth):
         f = open("deauth.txt", "a")
         stats = open("stats.txt", "a")
-        print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
-        print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+        print('{}'.format(now()),f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print('{}'.format(now()),f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         global deauth_count
         deauth_count += 1
-        if deauth_count >= 100 and pkt.time - start_time <= 0.05:
-            print(now,f'Possible DoS Deauthentication attack detected!')                 
-            print(now,f' 100 DoS Deauthentication packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
+        if deauth_count >= 100:
+            print('{}'.format('{}'.format(now())()),f'Possible DoS Deauthentication attack detected!')                 
+            print('{}'.format(now()),f' 100 DoS Deauthentication packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             deauth_count = 0
         f.close()
 deauth_count = 0
-start_time = time.time()
 
 def disas(pkt: Packet):
     if pkt.type==0 and pkt.subtype==12:
         f = open("disas.txt", "a")
         stats = open("stats.txt", "a")
-        print(now,f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
-        print(now,f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+        print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+        print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         global disas_count
         disas_count += 1
         if disas_count >= 100:
-            print(now,f'Possible DoS Disassociation attack detected!')                 
-            print(now,f' 100 DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
+            print('{}'.format(now()),f'Possible DoS Disassociation attack detected!')                 
+            print('{}'.format(now()),f' 100 DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             disas_count = 0
         f.close()
 disas_count = 0
