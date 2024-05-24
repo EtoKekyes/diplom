@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, fields
 from scapy.all import sniff, Packet, Dot11, Dot11WEP, Dot11FCS, Dot11Deauth, Dot11Disas
-from datetime import datetime
+from datetime import datetime, time
 
 now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -38,12 +38,13 @@ def deauth(pkt: Packet):
         print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
         global deauth_count
         deauth_count += 1
-        if deauth_count >= 100:
+        if deauth_count >= 100 and pkt.time - start_time <= 0.05:
             print(now,f'Possible DoS Deauthentication attack detected!')                 
             print(now,f' 100 DoS Deauthentication packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             deauth_count = 0
         f.close()
 deauth_count = 0
+start_time = time.time()
 
 def disas(pkt: Packet):
     if pkt.type==0 and pkt.subtype==12:
