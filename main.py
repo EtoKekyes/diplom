@@ -24,17 +24,23 @@ def pspoll(pkt: Packet):
         print(now,f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
 
 def deauth(pkt: Packet):
-    count = 0
-    while True:
-        if pkt.haslayer(Dot11Deauth):
-            count += 1
-            if count == 10:
-                print("YIPPEEEE")
-            f = open("deauth.txt", "a")
-            stats = open("stats.txt", "a")
-            print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
-            print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
-            print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
+    if pkt.haslayer(Dot11Deauth):
+        global deauth_count
+        deauth_count += 1
+        if deauth_count >= 100:
+            print(now,f'Possible DoS Disassociation attack detected!')                 
+            print(now,f' 100 DoS Disassociation packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
+            deauth_count = 0
+
+deauth_count = 0
+
+# def deauth(pkt: Packet):
+#     if pkt.haslayer(Dot11Deauth):
+#         f = open("deauth.txt", "a")
+#         stats = open("stats.txt", "a")
+#         print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = f, sep="")
+#         print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+#         print(now,f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
 
 def disas(pkt: Packet):
     if pkt.type==0 and pkt.subtype==12:
