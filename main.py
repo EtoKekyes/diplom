@@ -6,7 +6,7 @@ from datetime import datetime, time
 import time
 
 def now():
-    return datetime.'{}'.format(now())().strftime('%d-%m-%Y %H:%M:%S')
+    return datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 
 def wep(pkt: Packet):
     if pkt.haslayer(Dot11WEP):
@@ -41,7 +41,7 @@ def deauth(pkt: Packet):
         global deauth_count
         deauth_count += 1
         if deauth_count >= 100:
-            print('{}'.format('{}'.format(now())()),f'Possible DoS Deauthentication attack detected!')                 
+            print('{}'.format(now()),f'Possible DoS Deauthentication attack detected!')                 
             print('{}'.format(now()),f' 100 DoS Deauthentication packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             deauth_count = 0
         f.close()
