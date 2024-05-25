@@ -7,36 +7,36 @@ import time
 import atexit
 
 def exit_handler():
-    wep.close()
-    pspoll.close()
-    deauth.close()
-    disas.close()
-    stats.close()
+    stats_wep.close()
+    stats_pspoll.close()
+    stats_deauth.close()
+    stats_disas.close()
+    stats_all.close()
 atexit.register(exit_handler)
 
 def now():
     return datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 
-wep = open("wep.txt", "a")
-pspoll = open("pspoll.txt", "a")
-deauth = open("deauth.txt", "a")
-disas = open("disas.txt", "a")
-stats = open("stats.txt", "a")
+stats_wep = open("wep.txt", "a")
+stats_pspoll = open("pspoll.txt", "a")
+stats_deauth = open("deauth.txt", "a")
+stats_disas = open("disas.txt", "a")
+stats_all = open("stats.txt", "a")
 
 def wep(pkt: Packet):
     if pkt.haslayer(Dot11WEP):
-        print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', file = wep,sep="")
-        print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', file = stats,sep="")
+        print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', file = stats_wep, sep="")
+        print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', file = stats_all, sep="")
         print('{}'.format(now()),f' WEP AP detected with MAC: {pkt.addr1}', sep="")
 
 def pspoll(pkt: Packet):
     #if pkt.haslayer(Dot11ProbeReq) and pkt.info.endswith("-poll"):
-    if pkt.type==1 and pkt.subtype==10:
-        print('{}'.format(now()),f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = pspoll, sep="")
-        print('{}'.format(now()),f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+    if  pkt.haslayer(Dot11) and pkt.type==1 and pkt.subtype==10:
+        print('{}'.format(now()),f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats_pspoll, sep="")
+        print('{}'.format(now()),f' PS-Poll packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats_all, sep="")
         global pspoll_count
         pspoll_count += 1
-        if pspoll_count >= 100 and float(pkt.time) - time.time() <= 60:
+        if pspoll_count >= 100: #and float(pkt.time) - time.time() <= 60:
             print('{}'.format(now()),f'Possible PS-Poll attack detected!')                 
             print('{}'.format(now()),f' 100 PS-Poll packets detected, packet sent from {pkt.addr1} to device {pkt.addr2}', sep="")
             pspoll_count = 0
@@ -44,8 +44,8 @@ pspoll_count = 0
 
 def deauth(pkt: Packet):
     if pkt.haslayer(Dot11Deauth):
-        print('{}'.format(now()),f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = deauth, sep="")
-        print('{}'.format(now()),f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+        print('{}'.format(now()),f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats_deauth, sep="")
+        print('{}'.format(now()),f' DoS Deauthentication packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats_all, sep="")
         global deauth_count
         deauth_count += 1
         if deauth_count >= 100 and float(pkt.time) - time.time() <= 60:
@@ -55,9 +55,9 @@ def deauth(pkt: Packet):
 deauth_count = 0
 
 def disas(pkt: Packet):
-    if pkt.type==0 and pkt.subtype==10:
-        print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = disas, sep="")
-        print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats, sep="")
+    if pkt.haslayer(Dot11) and pkt.type==0 and pkt.subtype==10:
+        print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats_disas, sep="")
+        print('{}'.format(now()),f' DoS Disassociation packet detected, packet sent from {pkt.addr1} to device {pkt.addr2}', file = stats_all, sep="")
         global disas_count
         disas_count += 1
         if disas_count >= 100 and float(pkt.time) - time.time() <= 60:

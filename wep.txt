@@ -1,2 +1,14 @@
-2024-05-19 21:38:19 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
-2024-05-19 21:38:19 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:30:12 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:30:12 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:30:12 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:30:12 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:30:16 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:30:16 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:30:16 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:30:17 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:34:57 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:34:57 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:34:58 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:34:58 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:34:58 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
+25-05-2024 08:34:58 WEP AP detected with MAC: 84:c9:b2:a2:f6:26
